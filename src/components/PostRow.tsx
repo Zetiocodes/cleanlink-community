@@ -1,4 +1,4 @@
-import { ArrowUp, ArrowDown, MessageSquare, MapPin } from "lucide-react";
+import { ChevronUp, ChevronDown, MessageSquare, MapPin } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 interface Post {
@@ -22,63 +22,65 @@ interface PostRowProps {
 const PostRow = ({ post, onClick }: PostRowProps) => {
   const getCategoryColor = (category: string) => {
     const colors: Record<string, string> = {
-      Garbage: "bg-orange-500/10 text-orange-700 border-orange-200",
-      Road: "bg-blue-500/10 text-blue-700 border-blue-200",
-      Water: "bg-cyan-500/10 text-cyan-700 border-cyan-200",
-      Trees: "bg-green-500/10 text-green-700 border-green-200",
-      Electricity: "bg-yellow-500/10 text-yellow-700 border-yellow-200",
-      Other: "bg-gray-500/10 text-gray-700 border-gray-200",
+      Garbage: "bg-orange-100 text-orange-800",
+      Road: "bg-blue-100 text-blue-800",
+      Water: "bg-cyan-100 text-cyan-800",
+      Trees: "bg-green-100 text-green-800",
+      Electricity: "bg-yellow-100 text-yellow-800",
+      Other: "bg-gray-100 text-gray-800",
     };
     return colors[category] || colors.Other;
   };
 
   return (
-    <div className="flex gap-2 py-3 px-2 hover:bg-accent/50 border-b border-separator transition-colors">
-      {/* Upvote/Downvote Column */}
-      <div className="flex flex-col items-center gap-1 w-10 pt-1">
-        <button className="text-muted-foreground hover:text-primary transition-colors">
-          <ArrowUp className="w-5 h-5" />
-        </button>
-        <span className="text-sm font-medium">{post.upvotes}</span>
-        <button className="text-muted-foreground hover:text-destructive transition-colors">
-          <ArrowDown className="w-5 h-5" />
-        </button>
-      </div>
+    <div className="border-b border-border py-3 hover:bg-accent/50 transition-colors">
+      <div className="flex gap-2 sm:gap-3 px-2 sm:px-3">
+        {/* Upvote Column */}
+        <div className="flex flex-col items-center gap-1 pt-1 min-w-[40px]">
+          <button className="p-1 hover:bg-accent rounded touch-manipulation">
+            <ChevronUp className="w-4 h-4 sm:w-5 sm:h-5" />
+          </button>
+          <span className="text-xs sm:text-sm font-medium">{post.upvotes}</span>
+          <button className="p-1 hover:bg-accent rounded touch-manipulation">
+            <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5" />
+          </button>
+        </div>
 
-      {/* Thumbnail (if exists) */}
-      {post.imageUrl && (
-        <div className="w-20 h-20 flex-shrink-0">
+        {/* Content */}
+        <div className="flex-1 min-w-0" onClick={onClick}>
+          <h3 className="font-semibold text-sm sm:text-base mb-1 cursor-pointer hover:text-primary line-clamp-2">
+            {post.title}
+          </h3>
+          <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2 mb-2">
+            {post.description}
+          </p>
+          
+          {/* Meta Row */}
+          <div className="flex items-center gap-1.5 sm:gap-2 text-xs text-muted-foreground flex-wrap">
+            <Badge variant="secondary" className={`${getCategoryColor(post.category)} text-xs px-1.5 py-0`}>
+              {post.category}
+            </Badge>
+            <span className="flex items-center gap-0.5 sm:gap-1">
+              <MapPin className="w-3 h-3" />
+              <span className="truncate max-w-[100px] sm:max-w-none">{post.location}</span>
+            </span>
+            <span>{post.timeAgo}</span>
+            <span className="flex items-center gap-0.5 sm:gap-1">
+              <MessageSquare className="w-3 h-3" />
+              {post.commentCount}
+            </span>
+          </div>
+        </div>
+
+        {/* Thumbnail */}
+        {post.imageUrl && (
           <img
             src={post.imageUrl}
-            alt=""
-            className="w-full h-full object-cover rounded"
+            alt={post.title}
+            className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded flex-shrink-0 cursor-pointer touch-manipulation"
+            onClick={onClick}
           />
-        </div>
-      )}
-
-      {/* Content */}
-      <div className="flex-1 min-w-0 cursor-pointer" onClick={onClick}>
-        <h3 className="text-base font-medium text-foreground hover:text-primary mb-1">
-          {post.title}
-        </h3>
-        <p className="text-sm text-muted-foreground line-clamp-2 mb-2">
-          {post.description}
-        </p>
-        
-        <div className="flex items-center gap-3 text-xs text-muted-foreground flex-wrap">
-          <Badge variant="outline" className={getCategoryColor(post.category)}>
-            {post.category}
-          </Badge>
-          <span className="flex items-center gap-1">
-            <MapPin className="w-3 h-3" />
-            {post.location}
-          </span>
-          <span className="flex items-center gap-1">
-            <MessageSquare className="w-3 h-3" />
-            {post.commentCount} comments
-          </span>
-          <span>{post.timeAgo}</span>
-        </div>
+        )}
       </div>
     </div>
   );

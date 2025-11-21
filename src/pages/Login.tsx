@@ -16,7 +16,7 @@ const Login = () => {
         <Button
           variant="ghost"
           size="sm"
-          onClick={() => navigate("/landing")}
+          onClick={() => navigate(-1)}
           className="mb-6"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
