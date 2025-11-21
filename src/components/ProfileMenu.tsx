@@ -94,7 +94,14 @@ const ProfileMenu = ({
           <Button
             variant="destructive"
             className="w-full"
-            onClick={() => navigate("/logout")}
+            onClick={() => {
+              // Clear all auth state
+              localStorage.removeItem("authToken");
+              localStorage.removeItem("user");
+              sessionStorage.clear();
+              // Redirect to login
+              navigate("/login");
+            }}
           >
             <LogOut className="w-4 h-4 mr-2" />
             Logout

@@ -5,6 +5,9 @@ import { MapPin } from "lucide-react";
 const Landing = () => {
   const navigate = useNavigate();
 
+  // Check if user has seen onboarding
+  const hasSeenOnboarding = localStorage.getItem("hasSeenOnboarding");
+
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center px-4">
       <div className="max-w-md w-full space-y-8 text-center">
@@ -34,7 +37,7 @@ const Landing = () => {
           <Button
             size="lg"
             className="w-full"
-            onClick={() => navigate("/login")}
+            onClick={() => navigate(hasSeenOnboarding ? "/login" : "/onboarding")}
           >
             Sign Up / Login
           </Button>
