@@ -17,6 +17,8 @@ import Notifications from "./pages/Notifications";
 import Settings from "./pages/Settings";
 import Rewards from "./pages/Rewards";
 import NotFound from "./pages/NotFound";
+import AdminDashboard from "./pages/admin/Dashboard";
+import AdminCityProblems from "./pages/admin/CityProblems";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +42,8 @@ const App = () => (
           <Route path="/rewards" element={<Rewards />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/settings/location" element={<LocationSettings />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/problems" element={<AdminCityProblems />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
