@@ -14,16 +14,244 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      admin_city_access: {
+        Row: {
+          admin_id: string
+          city_id: string
+          created_at: string | null
+          id: string
+        }
+        Insert: {
+          admin_id: string
+          city_id: string
+          created_at?: string | null
+          id?: string
+        }
+        Update: {
+          admin_id?: string
+          city_id?: string
+          created_at?: string | null
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "admin_city_access_city_id_fkey"
+            columns: ["city_id"]
+            isOneToOne: false
+            referencedRelation: "cities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cities: {
+        Row: {
+          country: string
+          created_at: string | null
+          id: string
+          name: string
+          state: string
+        }
+        Insert: {
+          country?: string
+          created_at?: string | null
+          id?: string
+          name: string
+          state: string
+        }
+        Update: {
+          country?: string
+          created_at?: string | null
+          id?: string
+          name?: string
+          state?: string
+        }
+        Relationships: []
+      }
+      comments: {
+        Row: {
+          content: string
+          created_at: string | null
+          id: string
+          problem_id: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string | null
+          id?: string
+          problem_id: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string | null
+          id?: string
+          problem_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "comments_problem_id_fkey"
+            columns: ["problem_id"]
+            isOneToOne: false
+            referencedRelation: "problems"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      problems: {
+        Row: {
+          category: string
+          city_id: string
+          comment_count: number | null
+          created_at: string | null
+          description: string | null
+          downvotes: number | null
+          false_proof_image: string | null
+          false_reason: string | null
+          id: string
+          image_url: string | null
+          location: string
+          resolved_at: string | null
+          resolved_by: string | null
+          status: string | null
+          title: string
+          updated_at: string | null
+          upvotes: number | null
+          user_id: string
+        }
+        Insert: {
+          category: string
+          city_id: string
+          comment_count?: number | null
+          created_at?: string | null
+          description?: string | null
+          downvotes?: number | null
+          false_proof_image?: string | null
+          false_reason?: string | null
+          id?: string
+          image_url?: string | null
+          location: string
+          resolved_at?: string | null
+          resolved_by?: string | null
+          status?: string | null
+          title: string
+          updated_at?: string | null
+          upvotes?: number | null
+          user_id: string
+        }
+        Update: {
+          category?: string
+          city_id?: string
+          comment_count?: number | null
+          created_at?: string | null
+          description?: string | null
+          downvotes?: number | null
+          false_proof_image?: string | null
+          false_reason?: string | null
+          id?: string
+          image_url?: string | null
+          location?: string
+          resolved_at?: string | null
+          resolved_by?: string | null
+          status?: string | null
+          title?: string
+          updated_at?: string | null
+          upvotes?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "problems_city_id_fkey"
+            columns: ["city_id"]
+            isOneToOne: false
+            referencedRelation: "cities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          civic_points: number | null
+          created_at: string | null
+          false_reports_count: number | null
+          id: string
+          is_verified: boolean | null
+          location: string | null
+          suspension_until: string | null
+          updated_at: string | null
+          username: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          civic_points?: number | null
+          created_at?: string | null
+          false_reports_count?: number | null
+          id: string
+          is_verified?: boolean | null
+          location?: string | null
+          suspension_until?: string | null
+          updated_at?: string | null
+          username?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          civic_points?: number | null
+          created_at?: string | null
+          false_reports_count?: number | null
+          id?: string
+          is_verified?: boolean | null
+          location?: string | null
+          suspension_until?: string | null
+          updated_at?: string | null
+          username?: string | null
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      admin_has_city_access: {
+        Args: { _city_id: string; _user_id: string }
+        Returns: boolean
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "moderator" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +378,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "moderator", "user"],
+    },
   },
 } as const
